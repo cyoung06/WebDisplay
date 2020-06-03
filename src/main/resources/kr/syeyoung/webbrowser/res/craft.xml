@@ -1,0 +1,36 @@
+<gui rows="6" title="조합" field="gui">
+    <staticpane x="0" y="0" length="9" height="5"
+                populate="populateBackground" priority="LOW"></staticpane>
+    <staticpane x="0" y="5" length="9" height="1" priority="LOW" populate="populateQueue">
+
+    </staticpane>
+    <outlinepane x="0" y="5" length="9" height="1" field="paneItemQueue">
+    </outlinepane>
+    <outlinepane x="1" y="1" length="4" height="3" field="paneRecipes">
+    </outlinepane>
+    <outlinepane x="6" y="1" length="3" height="3" field="paneItems">
+    </outlinepane>
+    <staticpane x="1" y="0" length="1" height="1">
+        <item id="arrow" x="0" y="0" onClick="left">
+            <displayname>이전</displayname>
+        </item>
+    </staticpane>
+    <staticpane x="4" y="0" length="1" height="1">
+        <item id="arrow" x="0" y="0" onClick="right">
+            <displayname>다음</displayname>
+        </item>
+    </staticpane>
+    <staticpane x="7" y="0" length="1" height="1" field="paneCurrentRecipe">
+        <item id="barrier" x="0" y="0">
+            <displayname>&amp;f</displayname>
+        </item>
+    </staticpane>
+    <staticpane x="7" y="4" length="1" height="1">
+        <item id="anvil" x="0" y="0" onClick="craft" field="buttonCraft">
+            <displayname>&amp;f[ &amp;7조합 &amp;f]</displayname>
+            <lore>
+                <line>&amp;c조합할 아이템을 선택해주세요</line>
+            </lore>
+        </item>
+    </staticpane>
+</gui>

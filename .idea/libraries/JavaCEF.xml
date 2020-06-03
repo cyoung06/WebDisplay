@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="JavaCEF">
+    <CLASSES>
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/gluegen-rt-natives-windows-amd64.jar!/" />
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/gluegen-rt.jar!/" />
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/jcef-tests.jar!/" />
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/jcef.jar!/" />
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/jogl-all-natives-windows-amd64.jar!/" />
+      <root url="jar://B:/javacef/src/binary_distrib/win64/bin/jogl-all.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://B:/javacef/src/binary_distrib/win64/docs" />
+    </JAVADOC>
+    <NATIVE>
+      <root url="file://B:/javacef/src/binary_distrib/win64/bin/lib/win64" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>
