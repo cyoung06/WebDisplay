@@ -45,7 +45,7 @@ public class MapBrowser extends MapDisplay {
     private Map<Player, Keyboard> keyboardMap = new HashMap<>();
 
     public Keyboard getKeyboardByPlayer(Player p) {
-        return mapBrowser.getKeyboardMap().get(p);
+        return getKeyboardMap().get(p);
     }
 
     private MapWidgetButton createNew = new MapWidgetButton() {
