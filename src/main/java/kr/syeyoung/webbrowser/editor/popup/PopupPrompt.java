@@ -12,6 +12,7 @@ import org.cef.callback.CefJSDialogCallback;
 public class PopupPrompt extends Popup {
     private String message;
     private String defaultMsg;
+    private boolean ok = false;
 
     public PopupPrompt(CefJSDialogCallback callback, String message, String defaultMsg) {
         super(callback);
@@ -25,6 +26,7 @@ public class PopupPrompt extends Popup {
     private MapWidgetButton okButton = new MapWidgetFontSupportButton() {
         @Override
         public void onActivate() {
+            ok = true;
             close();
         }
     };
@@ -53,6 +55,6 @@ public class PopupPrompt extends Popup {
 
     @Override
     public void onPopupClosed() {
-        callback.Continue(true, nameField.getValue());
+        callback.Continue(true,ok ? nameField.getValue() : null);
     }
 }

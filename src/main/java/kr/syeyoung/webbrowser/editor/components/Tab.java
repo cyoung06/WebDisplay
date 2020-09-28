@@ -90,6 +90,10 @@ public class Tab extends MapWidget {
         return true;
     }
 
+    public void forceClosePopup() {
+        if (popup != null && !popup.isClosed()) popup.close();
+    }
+
     public void setupBrowser(String url) {
         if (cefBrowser != null) return;
 

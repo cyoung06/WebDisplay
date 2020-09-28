@@ -46,4 +46,20 @@ public class JSDialogHandler extends CefJSDialogHandlerAdapter {
             return false;
         }
     }
+
+    @Override
+    public boolean onBeforeUnloadDialog(CefBrowser cefBrowser, String s, boolean b, CefJSDialogCallback cefJSDialogCallback) {
+        Tab t = this.browser.getTab(cefBrowser);
+        if (t.addPopup(new PopupConfirm(cefJSDialogCallback, s))) {
+            return true;
+        } else {
+            cefJSDialogCallback.Continue(true, "");
+            return true;
+        }
+    }
+
+    @Override
+    public void onResetDialogState(CefBrowser cefBrowser) {
+        this.browser.getTab(cefBrowser).forceClosePopup();
+    }
 }
