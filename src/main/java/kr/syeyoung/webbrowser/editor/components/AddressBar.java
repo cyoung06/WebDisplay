@@ -128,13 +128,13 @@ public class AddressBar extends MapWidget {
     @Override
     public void onAttached() {
         addWidget(backButton_); backButton_.setBounds(5,5, 50,30);
-        addWidget(forwardButton_); forwardButton_.setBounds(55,5,60,30);
-        addWidget(reloadButton_); reloadButton_.setBounds(115, 5, 70, 30);
-        addWidget(address_field_); address_field_.setBounds(185, 5, getWidth()-330 , 30);
-        addWidget(minusButton_); minusButton_.setBounds(getWidth()-145, 5, 30, 30);
-        addWidget(plusButton_); plusButton_.setBounds(getWidth()-85, 5, 30, 30);
-        addWidget(zoom_label_); zoom_label_.setBounds(getWidth()-115, 5, 30, 30); zoom_label_.setText(zoomLevel_+""); zoom_label_.setFont(NanumFont.BigMapNanumFont);
-        addWidget(keyboard); keyboard.setBounds(getWidth()-55, 5, 50, 30);
+        addWidget(forwardButton_); forwardButton_.setBounds(55,5,70,30);
+        addWidget(reloadButton_); reloadButton_.setBounds(125, 5, 70, 30);
+        addWidget(address_field_); address_field_.setBounds(195, 5, getWidth()-370 , 30);
+        addWidget(minusButton_); minusButton_.setBounds(getWidth()-175, 5, 30, 30);
+        addWidget(plusButton_); plusButton_.setBounds(getWidth()-115, 5, 30, 30);
+        addWidget(zoom_label_); zoom_label_.setBounds(getWidth()-145, 5, 30, 30); zoom_label_.setText(zoomLevel_+""); zoom_label_.setFont(NanumFont.BigMapNanumFont);
+        addWidget(keyboard); keyboard.setBounds(getWidth()-85, 5, 80, 30);
         address_field_.setPrompt("Type the url to navigate");
     }
 
@@ -142,7 +142,7 @@ public class AddressBar extends MapWidget {
     public void onDraw() {
         super.onDraw();
         this.view.fillRectangle(0,0,getWidth(),getHeight(), MapColorPalette.getColor(75,75,75));
-        this.view.fillRectangle(getWidth()-115,5,30,30, MapColorPalette.COLOR_WHITE);
+        this.view.fillRectangle(getWidth()-145,5,30,30, MapColorPalette.COLOR_WHITE);
     }
 
     @Override

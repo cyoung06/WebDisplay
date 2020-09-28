@@ -109,7 +109,6 @@ public class MapWidgetColoredText extends MapWidget {
                     width_text = x;
             }
         } catch (Exception e) {
-            System.out.println("Error while writing "+text);
             e.printStackTrace();
         }
     }

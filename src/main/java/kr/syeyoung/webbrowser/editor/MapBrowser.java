@@ -6,6 +6,9 @@ import com.bergerkiller.bukkit.common.map.MapDisplay;
 import com.bergerkiller.bukkit.common.map.MapSessionMode;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidget;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidgetButton;
+import com.bergerkiller.bukkit.common.nbt.CommonTag;
+import com.bergerkiller.bukkit.common.nbt.CommonTagCompound;
+import com.bergerkiller.bukkit.common.nbt.CommonTagList;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import kr.syeyoung.webbrowser.CefAppCreator;
@@ -18,7 +21,9 @@ import kr.syeyoung.webbrowser.editor.components.Tab;
 import kr.syeyoung.webbrowser.editor.popup.Popup;
 import kr.syeyoung.webbrowser.util.DataUri;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.cef.CefApp;
 import org.cef.CefClient;
 import org.cef.CefSettings;
@@ -26,12 +31,12 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
 import org.cef.callback.CefFileDialogCallback;
-import org.cef.handler.CefDialogHandler;
-import org.cef.handler.CefDisplayHandlerAdapter;
-import org.cef.handler.CefLifeSpanHandlerAdapter;
-import org.cef.handler.CefLoadHandlerAdapter;
+import org.cef.handler.*;
+import org.cef.network.CefRequest;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class MapBrowser extends MapDisplay {
 
@@ -75,8 +80,16 @@ public class MapBrowser extends MapDisplay {
         addWidget(createNew);
         resizeTabs();
 
-        addTab(new Tab(this, "http://www.google.com"));
-        addTab(new Tab(this, "http://www.google.com"));
+        CommonTagCompound tabs = properties.get("tabs", CommonTagCompound.class);
+        if (tabs != null) {
+            CommonTagList taglist = tabs.getValue("urls", CommonTagList.class);
+
+            for (CommonTag url : taglist)
+                addTab(new Tab(this, url.getData(String.class)));
+        } else {
+            addTab(new Tab(this, "https://www.google.com"));
+        }
+
     }
 
     public void setActivatedTab(Tab t) {
@@ -98,8 +111,11 @@ public class MapBrowser extends MapDisplay {
 
         if (t == activeTab && tabs.size() != 0)
             setActivatedTab(tabs.get(0));
-
-
+        else if (t == activeTab && tabs.size() == 0) {
+            removeWidget(activeTab);
+            activeTab = null;
+            addTab(new Tab(this, "https://www.google.com"));
+        }
         resizeTabs();
     }
 
@@ -120,6 +136,12 @@ public class MapBrowser extends MapDisplay {
         createNew.setBounds(tabs.size() * eachSize, 0, 30, 30);
     }
 
+    public void saveURLS() {
+        CommonTagCompound common = new CommonTagCompound();
+        common.putListValues("urls", tabs.stream().map(t -> t.getCefBrowser().getURL()).collect(Collectors.toList()));
+        properties.set("tabs", common);
+    }
+
     public void createCefClient() {
         cefClient = CefAppCreator.getInstance().getCefApp().createClient();
         cefClient.addContextMenuHandler(new ContextMenuHandler(null));
@@ -129,12 +151,14 @@ public class MapBrowser extends MapDisplay {
         CefMessageRouter msgRouter = CefMessageRouter.create();
         msgRouter.addHandler(new MessageRouterHandlerEx(cefClient), false);
         cefClient.addMessageRouter(msgRouter);
+        cefClient.removeLifeSpanHandler();
+
         cefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public boolean onBeforePopup(CefBrowser cefBrowser, CefFrame cefFrame, String url, String target_frame_name) {
-                System.out.println(url + " / "+target_frame_name);
                 addTab(new Tab(MapBrowser.this, url));
-                return false;
+                PluginWebBrowser.LOGGER.log(Level.FINE, url + " / " + target_frame_name);
+                return true;
             }
         });
 
@@ -142,6 +166,8 @@ public class MapBrowser extends MapDisplay {
             @Override
             public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getAddressBar().setAddress(browser, url);
+
+                saveURLS();
             }
             @Override
             public void onTitleChange(CefBrowser browser, String title) {
@@ -149,7 +175,6 @@ public class MapBrowser extends MapDisplay {
             }
             @Override
             public void onStatusMessage(CefBrowser browser, String value) {
-
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getStatusBar().setStatusText(value);
             }
         });
@@ -157,6 +182,7 @@ public class MapBrowser extends MapDisplay {
             @Override
             public void onLoadingStateChange(CefBrowser browser, boolean isLoading,
                                              boolean canGoBack, boolean canGoForward) {
+
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getAddressBar().update(browser, isLoading, canGoBack, canGoForward);
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getStatusBar().setIsInProgress(isLoading);
 ///

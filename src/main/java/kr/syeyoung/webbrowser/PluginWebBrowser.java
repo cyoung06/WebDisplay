@@ -35,7 +35,6 @@ public class PluginWebBrowser extends JavaPlugin {
 
     public static final Logger LOGGER = Logger.getLogger("Minecraft");
 
-
     public void onEnable() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
             getServer().broadcastMessage("§b[웹 디스플레이] §f해당 서버는 §asyeyoung (cyoung06@naver.com) §f의 웹 디스플레이 플러그인을 사용중입니다");

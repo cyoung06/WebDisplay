@@ -11,7 +11,9 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.GLBuffers;
 import com.sun.awt.AWTUtilities;
 import com.sun.jmx.remote.internal.ArrayQueue;
+import kr.syeyoung.webbrowser.PluginWebBrowser;
 import kr.syeyoung.webbrowser.editor.MapClickListener;
+import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserOsr;
 import org.cef.callback.CefDragData;
@@ -29,6 +31,7 @@ import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
 
 import static com.jogamp.opengl.GL.*;
 
@@ -168,12 +171,12 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
 
     @Override
     public void onPopupShow(CefBrowser cefBrowser, boolean b) {
-        System.out.println(cefBrowser.getURL() + " / "+b);
+        PluginWebBrowser.LOGGER.log(Level.FINE, cefBrowser +" / " + cefBrowser.getURL() + " / "+b);
     }
 
     @Override
     public void onPopupSize(CefBrowser cefBrowser, Rectangle rectangle) {
-        System.out.println(cefBrowser.getURL() + " / "+rectangle.toString());
+        PluginWebBrowser.LOGGER.log(Level.FINE, cefBrowser +" / " + cefBrowser.getURL() + " / "+rectangle.toString());
     }
 
     private long lastClick = -1;

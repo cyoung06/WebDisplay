@@ -16,27 +16,23 @@ public class AppHandler extends CefAppHandlerAdapter {
     }
 
     public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
-        if (registrar.addCustomScheme("internal", true, false, false, false, true, false, false)) {
-            System.out.println("Added scheme client://");
-        }
-
+        registrar.addCustomScheme("webdisplay", true, false, false, false, true, false, false);
     }
 
     public void onContextInitialized() {
         CefApp cefApp = CefApp.getInstance();
-        cefApp.registerSchemeHandlerFactory("client", "internal", new SchemeHandlerFactory());
+        cefApp.registerSchemeHandlerFactory("webdisplay", "home", new SchemeHandlerFactory());
     }
 
     public void stateHasChanged(CefApp.CefAppState state) {
-        System.out.println("AppHandler.stateHasChanged: " + state);
     }
 
-    private class SchemeHandlerFactory implements CefSchemeHandlerFactory {
+    private static class SchemeHandlerFactory implements CefSchemeHandlerFactory {
         private SchemeHandlerFactory() {
         }
 
         public CefResourceHandler create(CefBrowser browser, CefFrame frame, String schemeName, CefRequest request) {
-            return schemeName.equals("internal") ? new ClientSchemeHandler() : null;
+            return schemeName.equals("webdisplay") ? new WebDisplaySchemeHandler() : null;
         }
     }
 }
