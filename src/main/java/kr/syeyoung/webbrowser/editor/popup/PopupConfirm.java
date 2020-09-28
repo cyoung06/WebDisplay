@@ -47,8 +47,8 @@ public class PopupConfirm extends Popup {
     public void onAttached() {
         clearWidgets();
         super.onAttached();
-        yes.setText("네");
-        no.setText("아니요");
+        yes.setText("YES");
+        no.setText("NO");
         yes.setBounds(getWidth() / 5, getHeight() - 50, getWidth() / 5, 40);
         no.setBounds(getWidth() * 3 / 5, getHeight() - 50, getWidth() / 5, 40);
         addWidget(no);

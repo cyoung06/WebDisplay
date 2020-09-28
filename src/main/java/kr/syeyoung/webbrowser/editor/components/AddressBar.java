@@ -28,7 +28,7 @@ public class AddressBar extends MapWidget {
         @Override
         public void onAttached() {
             super.onAttached();
-            this.setText("뒤로");
+            this.setText("BACK");
             this.setFont(NanumFont.BigMapNanumFont);
         }
 
@@ -41,7 +41,7 @@ public class AddressBar extends MapWidget {
         @Override
         public void onAttached() {
             super.onAttached();
-            this.setText("앞으로");
+            this.setText("FORWARD");
             this.setFont(NanumFont.BigMapNanumFont);
         }
         @Override
@@ -53,12 +53,12 @@ public class AddressBar extends MapWidget {
         @Override
         public void onAttached() {
             super.onAttached();
-            this.setText("새로고침");
+            this.setText("REFRESH");
             this.setFont(NanumFont.BigMapNanumFont);
         }
         @Override
         public void onActivate() {
-            if (reloadButton_.getText().equalsIgnoreCase("새로고침")) {
+            if (reloadButton_.getText().equalsIgnoreCase("REFRESH")) {
                 browser_.reloadIgnoreCache();
             } else {
                 browser_.stopLoad();
@@ -100,7 +100,7 @@ public class AddressBar extends MapWidget {
         @Override
         public void onAttached() {
             super.onAttached();
-            this.setText("키보드");
+            this.setText("KEYBOARD");
             this.setFont(NanumFont.BigMapNanumFont);
         }
         @Override
@@ -135,6 +135,7 @@ public class AddressBar extends MapWidget {
         addWidget(plusButton_); plusButton_.setBounds(getWidth()-85, 5, 30, 30);
         addWidget(zoom_label_); zoom_label_.setBounds(getWidth()-115, 5, 30, 30); zoom_label_.setText(zoomLevel_+""); zoom_label_.setFont(NanumFont.BigMapNanumFont);
         addWidget(keyboard); keyboard.setBounds(getWidth()-55, 5, 50, 30);
+        address_field_.setPrompt("Type the url to navigate");
     }
 
     @Override
@@ -155,7 +156,7 @@ public class AddressBar extends MapWidget {
         if (browser == browser_) {
             backButton_.setEnabled(canGoBack);
             forwardButton_.setEnabled(canGoForward);
-            reloadButton_.setText(isLoading ? "중지" : "새로고침");
+            reloadButton_.setText(isLoading ? "STOP" : "REFRESH");
         }
     }
 

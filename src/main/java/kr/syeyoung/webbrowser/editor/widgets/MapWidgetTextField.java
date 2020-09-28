@@ -10,6 +10,7 @@ import kr.syeyoung.webbrowser.PluginWebBrowser;
 import kr.syeyoung.webbrowser.editor.MapClickListener;
 import kr.syeyoung.webbrowser.editor.PromptInputPls;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationContext;
@@ -22,6 +23,9 @@ public class MapWidgetTextField extends MapWidget implements MapClickListener {
 
     private boolean allowColor = false;
     private MapFont font;
+    @Getter
+    @Setter
+    private String prompt;
 
 
     public MapWidgetTextField(boolean color) {
@@ -86,7 +90,7 @@ public class MapWidgetTextField extends MapWidget implements MapClickListener {
     public void onActivate() {
         setFocusable(false);
         Conversation conversation = new ConversationFactory(PluginWebBrowser.getPlugin(PluginWebBrowser.class)).withModality(true)
-                .withEscapeSequence("/quit")
+                .withEscapeSequence("quit")
                 .withInitialSessionData(new HashMap() {{
                     put("curr", value);
                     put("callback", new Runnable() {
@@ -101,7 +105,7 @@ public class MapWidgetTextField extends MapWidget implements MapClickListener {
                         }
                     });
                 }})
-                .withFirstPrompt(new PromptInputPls())
+                .withFirstPrompt(new PromptInputPls(prompt))
                 .buildConversation(lastClicker);
         conversation.begin();
         conversationContext = conversation.getContext();

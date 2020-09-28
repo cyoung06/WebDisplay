@@ -4,9 +4,14 @@ import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.Prompt;
 
 public class PromptInputPls implements Prompt {
+    private String ask;
+    public PromptInputPls(String ask) {
+        this.ask = ask;
+    }
+
     @Override
     public String getPromptText(ConversationContext context) {
-        return "새 주소를 입력해주세요:: 취소는 /quit :: 현제주소: "+context.getSessionData("curr");
+        return ask+"\n\nTo cancel, type 'quit'";
     }
 
     @Override

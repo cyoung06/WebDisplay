@@ -37,7 +37,7 @@ public class PopupWarning extends Popup {
         text.setText(message);
 
         okButton.setBounds(10, getHeight() - 50, getWidth() - 20, 40);
-        okButton.setText("확인");
+        okButton.setText("OK");
         addWidget(text);
         addWidget(okButton);
     }

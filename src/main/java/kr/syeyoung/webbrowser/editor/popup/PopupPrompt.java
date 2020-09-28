@@ -43,10 +43,11 @@ public class PopupPrompt extends Popup {
         text.setText(message);
 
         okButton.setBounds(10, getHeight() - 50, getWidth() - 20, 40);
-        okButton.setText("확인");
+        okButton.setText("OK");
 
         nameField.setBounds(10, getHeight()-90, getWidth()-20, 30);
         nameField.setValue(defaultMsg);
+        nameField.setPrompt(message);
 
         addWidget(text);
         addWidget(okButton);
