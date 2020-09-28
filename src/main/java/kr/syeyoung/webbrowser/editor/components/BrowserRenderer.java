@@ -141,7 +141,6 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
 
     public void sendMouseEvent(MouseEvent mouseEvent) {
         browser.sendMouseEventWrap(mouseEvent);
-        System.out.println(mouseEvent);
     }
     
     private static final Point dummyPoint = new Point(0,0);

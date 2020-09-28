@@ -132,6 +132,7 @@ public class MapBrowser extends MapDisplay {
         cefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public boolean onBeforePopup(CefBrowser cefBrowser, CefFrame cefFrame, String url, String target_frame_name) {
+                System.out.println(url + " / "+target_frame_name);
                 addTab(new Tab(MapBrowser.this, url));
                 return false;
             }
