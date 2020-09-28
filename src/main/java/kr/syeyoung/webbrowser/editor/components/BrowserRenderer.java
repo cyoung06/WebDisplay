@@ -88,7 +88,6 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
             label: {
                     for (int y =0; y < fd.height; y++) {
                         for (int x = 0; x < fd.width; x++) {
-//                            System.out.println(x+","+y+" / "+bf.position() + " / "+((y * fd.width + x)*4));
                             int blue = 0xff & bf.get();
                             int green = 0xff & bf.get();
                             int red = 0xff & bf.get();
@@ -125,7 +124,6 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
                     for (int y =r.y; y < r.y + r.height; y++) {
                         bf.position((y * fd.width + r.x) * 4);
                         for (int x = r.x; x < r.x + r.width; x++) {
-//                            System.out.println(x+","+y+" / "+bf.position() + " / "+((y * fd.width + x)*4));
                             int blue = 0xff & bf.get();
                             int green = 0xff & bf.get();
                             int red = 0xff & bf.get();
@@ -228,7 +226,6 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
 
     @Override
     public void onPaint(CefBrowser cefBrowser, boolean b, Rectangle[] rectangles, ByteBuffer byteBuffer, int i, int i1) {
-//        System.out.println("paint1"+i+","+i1+","+byteBuffer.remaining());
         // yay fun stuff
         FrameData fd = lastFrameData;
         synchronized (lastFrameData) {

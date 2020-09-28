@@ -16,12 +16,13 @@ public class AppHandler extends CefAppHandlerAdapter {
     }
 
     public void onRegisterCustomSchemes(CefSchemeRegistrar registrar) {
-        registrar.addCustomScheme("webdisplay", true, false, false, false, true, false, false);
+        // scheme / standard / local / display isolation / secure / cors / csp bypass / fetch
+        registrar.addCustomScheme("webdisplay", false, false, false, false, false, false, false);
     }
 
     public void onContextInitialized() {
         CefApp cefApp = CefApp.getInstance();
-        cefApp.registerSchemeHandlerFactory("webdisplay", "home", new SchemeHandlerFactory());
+        cefApp.registerSchemeHandlerFactory("webdisplay", "", new SchemeHandlerFactory());
     }
 
     public void stateHasChanged(CefApp.CefAppState state) {

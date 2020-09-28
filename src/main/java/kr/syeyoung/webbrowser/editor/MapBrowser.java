@@ -55,6 +55,8 @@ public class MapBrowser extends MapDisplay {
         return getKeyboardMap().get(p);
     }
 
+    public static final String DEFAULT_URL = "webdisplay://welcome";
+
     private MapWidgetButton createNew = new MapWidgetButton() {
         @Override
         public void onAttached() {
@@ -65,7 +67,7 @@ public class MapBrowser extends MapDisplay {
 
         @Override
         public void onActivate() {
-            addTab(new Tab(MapBrowser.this, "http://www.google.com"));
+            addTab(new Tab(MapBrowser.this, DEFAULT_URL));
         }
     };
 
@@ -87,7 +89,7 @@ public class MapBrowser extends MapDisplay {
             for (CommonTag url : taglist)
                 addTab(new Tab(this, url.getData(String.class)));
         } else {
-            addTab(new Tab(this, "https://www.google.com"));
+            addTab(new Tab(this, DEFAULT_URL));
         }
 
     }
@@ -114,7 +116,7 @@ public class MapBrowser extends MapDisplay {
         else if (t == activeTab && tabs.size() == 0) {
             removeWidget(activeTab);
             activeTab = null;
-            addTab(new Tab(this, "https://www.google.com"));
+            addTab(new Tab(this, DEFAULT_URL));
         }
         resizeTabs();
     }

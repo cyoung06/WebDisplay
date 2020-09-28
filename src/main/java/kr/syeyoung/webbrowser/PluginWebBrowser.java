@@ -18,7 +18,9 @@ import org.bukkit.plugin.java.annotation.plugin.Plugin;
 import org.bukkit.plugin.java.annotation.plugin.author.Author;
 import org.cef.CefApp;
 import org.cef.CefSettings;
+import org.cef.SystemBootstrap;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -28,7 +30,7 @@ import java.util.logging.Logger;
 @Author("syeyoung (cyoung06@naver.com)")
 @Dependency("BKCommonLib")
 @Commands({
-        @Command(name="웹브라우저", desc="내놔"),
+        @Command(name="webdisplay", desc="gives web display map"),
         @Command(name="keyclick", desc="how do you know it", permission = "op.op")
 })
 public class PluginWebBrowser extends JavaPlugin {
@@ -37,8 +39,25 @@ public class PluginWebBrowser extends JavaPlugin {
 
     public void onEnable() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            getServer().broadcastMessage("§b[웹 디스플레이] §f해당 서버는 §asyeyoung (cyoung06@naver.com) §f의 웹 디스플레이 플러그인을 사용중입니다");
+            getServer().broadcastMessage("§b[Web Display] §fThis server uses a web display plugin made by §asyeyoung (cyoung06@naver.com)");
         }, 0L, 20L * 60L *5L);
+        SystemBootstrap.setLoader(NativeLib.loader);
+
+
+        NativeLib.setResourcePath(getDataFolder().toPath());
+
+        try {
+            System.out.println("Extracting native libraries...");
+            NativeLib.unpackIntoDir();
+        } catch (IOException e) {
+            getServer().getPluginManager().disablePlugin(this);
+            System.out.println("An error occured while unpacking native libraries");
+            e.printStackTrace();
+            return;
+        } catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
     }
 
     public void onDisable() {
@@ -46,14 +65,15 @@ public class PluginWebBrowser extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (command.getLabel().equals("웹브라우저"))
-            ((Player)sender).getInventory().addItem(MapDisplay.createMapItem(this, MapBrowser.class));
-        else {
+        if (command.getLabel().equals("webdisplay")) {
+            ((Player) sender).getInventory().addItem(MapDisplay.createMapItem(this, MapBrowser.class));
+            sender.sendMessage("§b[Web Display] §fA map has been added to your inventory. Hang them to the wall using item frames to create web display.");
+        } else {
             if (args.length != 2) return true;
             if (!sender.isOp()) return true;
             Optional<MapSession> session = CommonPlugin.getInstance().getMapController().getInfo(UUID.fromString(args[0])).sessions.stream().findFirst();
             if (!session.isPresent()) {
-                sender.sendMessage("§c해당 키보드과 연계된 웹 디스플레이를 찾을 수 없습니다");
+                sender.sendMessage("§cCan't find the webdisplay connected to this keyboard");
                 return true;
             }
             MapSession mapSession = session.get();

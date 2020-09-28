@@ -22,6 +22,8 @@ public class CefAppCreator {
             CefSettings settings = new CefSettings();
             settings.windowless_rendering_enabled = true;
             settings.command_line_args_disabled = false;
+            settings.browser_subprocess_path = NativeLib.getSubProcessPath();
+//            settings.resources_dir_path =
             settings.background_color = settings.new ColorType(100, 255, 242, 211);
             cefApp = CefApp.getInstance(new String[]{"--mute-audio=true", "--mute-audio", "-mute-audio"}, settings);
 

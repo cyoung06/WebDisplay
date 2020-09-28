@@ -20,14 +20,22 @@ public class WebDisplaySchemeHandler implements CefResourceHandler {
         boolean var3 = false;
         String var4 = var1.getURL();
         String var5;
-        if (var4.contains("welcome")) {
+        System.out.println(var4);
+        if (var4.equalsIgnoreCase("webdisplay://welcome")) {
             mime_type_ = "text/html";
             loadContent("/kr/syeyoung/webbrowser/res/welcome.html");
             offset_ = 0;
-        } else if (var4.contains("opensource")) {
+            var3 = true;
+        } else if (var4.equalsIgnoreCase("webdisplay://opensource")) {
             mime_type_ = "text/html";
             loadContent("/kr/syeyoung/webbrowser/res/opensource.html");
             offset_ = 0;
+            var3 = true;
+        } else {
+            mime_type_ = "text/hrml";
+            offset_ = 0;
+            data_ = "<html><head></head><body>NOT FOUND</body></html>".getBytes();
+            var3 = true;
         }
 
         if (var3) {
