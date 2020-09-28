@@ -35,23 +35,6 @@ public class PluginWebBrowser extends JavaPlugin {
 
     public static final Logger LOGGER = Logger.getLogger("Minecraft");
 
-    private static CefApp cefApp;
-//    @Override
-    private void createCefAPP() {
-        if (CefApp.getState() != CefApp.CefAppState.INITIALIZED) {
-            CefSettings settings = new CefSettings();
-            settings.windowless_rendering_enabled = true;
-            settings.background_color = settings.new ColorType(100, 255, 242, 211);
-            cefApp = CefApp.getInstance(new String[0], settings);
-
-            CefApp.CefVersion version = cefApp.getVersion();
-            System.out.println("Using:\n" + version);
-
-            CefApp.addAppHandler(new AppHandler(new String[0]));
-        } else {
-            cefApp = CefApp.getInstance();
-        }
-    }
 
     public void onEnable() {
         getServer().getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -88,11 +71,5 @@ public class PluginWebBrowser extends JavaPlugin {
         }
 
         return true;
-    }
-
-    public CefApp getCefApp() {
-        if (cefApp == null || cefApp.getState() != CefApp.CefAppState.INITIALIZED)
-            createCefAPP();
-        return cefApp;
     }
 }

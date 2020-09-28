@@ -1,5 +1,6 @@
 package kr.syeyoung.webbrowser.editor;
 
+import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -7,9 +8,11 @@ import org.bukkit.entity.Player;
 import org.cef.CefClient;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserOsr;
+import sun.awt.AWTAccessor;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class Keyboard {
@@ -18,11 +21,12 @@ public class Keyboard {
     private boolean isAltPressed;
     private boolean isCapsLockPressed;
 
-    private CefBrowserOsr browser;
+    @Getter
+    private MapBrowser browser;
     private Player p;
     private UUID uid;
 
-    public Keyboard(CefBrowserOsr browser, UUID uuid, Player p) {
+    public Keyboard(MapBrowser browser, UUID uuid, Player p) {
         this.browser = browser;
         this.p = p;
         this.uid = uuid;
@@ -65,60 +69,92 @@ public class Keyboard {
     public void onKeyClick(int keyCode) throws InterruptedException {
         if (keyCode == KeyEvent.VK_SHIFT) {
             isShiftPressed = !isShiftPressed;
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+            sendEvent(createKeyEvent(isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, keyCode , KeyEvent.CHAR_UNDEFINED, keyCode, 0, keyCode));
         } else if (keyCode == KeyEvent.VK_CONTROL) {
             isCtrlPressed = !isCtrlPressed;
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isCtrlPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+            sendEvent(createKeyEvent(isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, keyCode , KeyEvent.CHAR_UNDEFINED, keyCode, 0, keyCode));
         } else if (keyCode == KeyEvent.VK_ALT) {
             isAltPressed = !isAltPressed;
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isAltPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+            sendEvent(createKeyEvent(isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, keyCode , KeyEvent.CHAR_UNDEFINED, keyCode, 0, keyCode));
         } else if (keyCode == KeyEvent.VK_CAPS_LOCK) {
             isCapsLockPressed = !isCapsLockPressed;
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isCapsLockPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
-        } else if (keyCode == KeyEvent.VK_ENTER) {
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), getMask(),keyCode , '\n', KeyEvent.KEY_LOCATION_STANDARD));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_TYPED, System.currentTimeMillis(), getMask(),KeyEvent.VK_UNDEFINED ,'\n'));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , '\n', KeyEvent.KEY_LOCATION_STANDARD));
-            if (isShiftPressed) {
-                isShiftPressed = false;
-                browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+            sendEvent(createKeyEvent(isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, keyCode , KeyEvent.CHAR_UNDEFINED, keyCode, 0, keyCode));
+        } else {
+            if (keyCode == KeyEvent.VK_ENTER) {
+                sendEvent(createKeyEvent(KeyEvent.KEY_PRESSED, keyCode , '\n', 10, 13, 10));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_TYPED, KeyEvent.VK_UNDEFINED , '\n', 0,0,0));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_RELEASED, keyCode ,'\n', 10, 13, 10));
+            } else if (shiftModifier.containsKey(keyCode)){
+                Character[] modifier = shiftModifier.get(keyCode);
+                char c = modifier[isShiftPressed | isCapsLockPressed ? 1 : 0];
+
+                sendEvent(createKeyEvent(KeyEvent.KEY_PRESSED, keyCode , c, keyCode, Character.toLowerCase(c), keyCode));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_TYPED, KeyEvent.VK_UNDEFINED ,c, 0,0,0));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_RELEASED, keyCode , c, keyCode, Character.toLowerCase(c), keyCode));
+            } else if (keyCode == KeyEvent.VK_TAB) {
+                sendEvent(createKeyEvent(KeyEvent.KEY_PRESSED, keyCode ,'\t', keyCode, keyCode, keyCode));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_TYPED, KeyEvent.VK_UNDEFINED ,'\t', 0,0,0));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_RELEASED, keyCode , '\t', keyCode, keyCode, keyCode));
+            } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                sendEvent(createKeyEvent(KeyEvent.KEY_PRESSED, keyCode , '\b', keyCode, keyCode, keyCode));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_TYPED, KeyEvent.VK_UNDEFINED ,'\b', 0,0,0));
+                Thread.sleep(50);
+                sendEvent(createKeyEvent(KeyEvent.KEY_RELEASED, keyCode , '\b', keyCode, keyCode, keyCode));
             }
-        } else if (shiftModifier.containsKey(keyCode)){
-            Character[] modifier = shiftModifier.get(keyCode);
-            char c = modifier[isShiftPressed | isCapsLockPressed ? 1 : 0];
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_TYPED, System.currentTimeMillis(), getMask(),KeyEvent.VK_UNDEFINED ,c));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
             if (isShiftPressed) {
                 isShiftPressed = false;
-                browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
-            }
-        } else if (keyCode == KeyEvent.VK_TAB) {
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), getMask(),keyCode , '\t', KeyEvent.KEY_LOCATION_STANDARD));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_TYPED, System.currentTimeMillis(), getMask(),KeyEvent.VK_UNDEFINED ,'\t'));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , '\t', KeyEvent.KEY_LOCATION_STANDARD));
-            if (isShiftPressed) {
-                isShiftPressed = false;
-                browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
-            }
-        } else if (keyCode == KeyEvent.VK_BACK_SPACE) {
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_PRESSED, System.currentTimeMillis(), getMask(),keyCode , '\b', KeyEvent.KEY_LOCATION_STANDARD));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_TYPED, System.currentTimeMillis(), getMask(),KeyEvent.VK_UNDEFINED , '\b'));
-            Thread.sleep(50);
-            browser.sendKeyEventWrap(new KeyEvent(new JLabel(), KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , '\b', KeyEvent.KEY_LOCATION_STANDARD));
-            if (isShiftPressed) {
-                isShiftPressed = false;
-                browser.sendKeyEventWrap(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+                sendEvent(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
             }
         }
         sendKeyboard();
+    }
+
+    private static final Field f;
+
+    static {
+        Field semiF = null;
+        try {
+            semiF = KeyEvent.class.getDeclaredField("scancode");
+            semiF.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        f = semiF;
+    }
+
+    public KeyEvent createKeyEvent(int event, int keyCode, char keyChar, int extended,int primaryUnicode, int rawCode) {
+        KeyEvent ev =  new KeyEvent(new JLabel(), event, System.currentTimeMillis(), getMask(), keyCode, keyChar, event != KeyEvent.KEY_TYPED ? KeyEvent.KEY_LOCATION_STANDARD : KeyEvent.KEY_LOCATION_UNKNOWN);
+        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(ev, extended);
+        AWTAccessor.getKeyEventAccessor().setPrimaryLevelUnicode(ev, primaryUnicode);
+        AWTAccessor.getKeyEventAccessor().setRawCode(ev, rawCode);
+
+        if (keyChar == '\b' && f != null && event != KeyEvent.KEY_TYPED) {
+            try {
+                f.setLong(ev,14);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else if (keyChar == '\n' && f != null && event != KeyEvent.KEY_TYPED) {
+            try {
+                f.setLong(ev,28);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return ev;
+    }
+
+    public void sendEvent(KeyEvent event) {
+        if (browser.getActiveTab() != null)
+            ((CefBrowserOsr)browser.getActiveTab().getCefBrowser()).sendKeyEventWrap(event);
     }
 
     public int getMask() {
@@ -126,6 +162,7 @@ public class Keyboard {
         if (isShiftPressed|isCapsLockPressed ) result |= KeyEvent.SHIFT_DOWN_MASK;
         if (isAltPressed) result |= KeyEvent.ALT_DOWN_MASK;
         if (isCtrlPressed) result |= KeyEvent.CTRL_DOWN_MASK;
+
         return result;
     }
 

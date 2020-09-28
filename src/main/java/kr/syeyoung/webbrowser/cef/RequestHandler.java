@@ -37,30 +37,7 @@ public class RequestHandler extends CefResourceRequestHandlerAdapter implements 
     @Override
     public boolean onBeforeBrowse(CefBrowser browser, CefFrame frame, CefRequest request,
                                   boolean user_gesture, boolean is_redirect) {
-        CefPostData postData = request.getPostData();
-        if (postData != null) {
-            Vector<CefPostDataElement> elements = new Vector<CefPostDataElement>();
-            postData.getElements(elements);
-            for (CefPostDataElement el : elements) {
-                int numBytes = el.getBytesCount();
-                if (numBytes <= 0) continue;
-
-                byte[] readBytes = new byte[numBytes];
-                if (el.getBytes(numBytes, readBytes) <= 0) continue;
-
-                String readString = new String(readBytes);
-                if (readString.indexOf("ignore") > -1) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            JOptionPane.showMessageDialog(owner_,
-                                    "The request was rejected because you've entered \"ignore\" into the form.");
-                        }
-                    });
-                    return true;
-                }
-            }
-        }
+        
         return false;
     }
 

@@ -5,6 +5,7 @@ import com.bergerkiller.bukkit.common.map.widgets.MapWidget;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidgetButton;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidgetText;
 import kr.syeyoung.webbrowser.editor.Keyboard;
+import kr.syeyoung.webbrowser.editor.MapBrowser;
 import kr.syeyoung.webbrowser.editor.widgets.MapWidgetColoredText;
 import kr.syeyoung.webbrowser.editor.widgets.MapWidgetFontSupportButton;
 import kr.syeyoung.webbrowser.editor.widgets.MapWidgetTextField;
@@ -104,25 +105,23 @@ public class AddressBar extends MapWidget {
         }
         @Override
         public void onActivate() {
-            if (!keyboardMap.containsKey(getLastClicker()))
-                keyboardMap.put(getLastClicker(), new Keyboard((CefBrowserOsr) browser_,getDisplay().getMapInfo().uuid, getLastClicker()));
-            keyboardMap.get(getLastClicker()).sendKeyboard();
+            if (!mapBrowser.getKeyboardMap().containsKey(getLastClicker()))
+                mapBrowser.getKeyboardMap().put(getLastClicker(), new Keyboard(mapBrowser,getDisplay().getMapInfo().uuid, getLastClicker()));
+            mapBrowser.getKeyboardMap().get(getLastClicker()).sendKeyboard();
         }
     };
     private MapWidgetText zoom_label_ = new MapWidgetText();
     private double zoomLevel_ = 0;
     private CefBrowser browser_;
 
-    private Map<Player, Keyboard> keyboardMap = new HashMap<>();
+    private MapBrowser mapBrowser;
 
-    public Keyboard getKeyboardByPlayer(Player p) {
-        return keyboardMap.get(p);
-    }
 
-    public AddressBar(CefBrowser browser) {
+    public AddressBar(CefBrowser browser, MapBrowser browser2) {
         setFocusable(true);
         setClipParent(true);
         browser_ = browser;
+        this.mapBrowser = browser2;
         setSize(getWidth(), 40);
     }
 

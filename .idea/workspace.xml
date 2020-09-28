@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="" />
+    <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/CefAppCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/Tab.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebBrowser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBrowser.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/RequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/RequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/new.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/no.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/not_selected.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/settings.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/smallnew.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/yes.png" beforeDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,10 +35,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1b9ZSdZMaXy5mt66Gay6lCjXlGe" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/kr/syeyoung/craft/editor/widgets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -35,6 +57,7 @@
       <recent name="kr.syeyoung.craft.editor.info" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="B:\프로그래밍\WebBrowser\src\main\java\kr\syeyoung\webbrowser\editor" />
       <recent name="B:\프로그래밍\WebBrowser\src\main\java\kr\syeyoung\craft\editor\widgets" />
       <recent name="B:\프로그래밍\WebBrowser\src\main\java\kr\syeyoung\craft\cef" />
       <recent name="B:\프로그래밍\Craft\src\main\resources\kr\syeyoung\craft\res" />
@@ -104,9 +127,9 @@
     </configuration>
     <list>
       <item itemvalue="Java Scratch.Scratch" />
-      <item itemvalue="Remote.Unnamed" />
       <item itemvalue="Java Scratch.KeyEventDemo" />
       <item itemvalue="Java Scratch.KeyEventDemo (1)" />
+      <item itemvalue="Remote.Unnamed" />
     </list>
     <recent_temporary>
       <list>
@@ -128,6 +151,19 @@
       <updated>1588046270571</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

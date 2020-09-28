@@ -25,8 +25,8 @@
                     <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
                     <artifactSet>
                         <excludes>
-                            <exclude>org.jogamp.jogl:jogl-all-main</exclude>
-                            <exclude>org.jogamp.gluegen:gluegen-rt-main</exclude>
+<!--                            <exclude>org.jogamp.jogl:jogl-all-main</exclude>-->
+<!--                            <exclude>org.jogamp.gluegen:gluegen-rt-main</exclude>-->
                         </excludes>
                     </artifactSet>
                 </configuration>
@@ -110,13 +110,11 @@
             <groupId>org.jogamp.jogl</groupId>
             <artifactId>jogl-all-main</artifactId>
             <version>2.3.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jogamp.gluegen</groupId>
             <artifactId>gluegen-rt-main</artifactId>
             <version>2.3.2</version>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>
