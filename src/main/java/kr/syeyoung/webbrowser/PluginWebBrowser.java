@@ -59,7 +59,7 @@ public class PluginWebBrowser extends JavaPlugin {
             }
             MapSession mapSession = session.get();
             MapBrowser browser= (MapBrowser) mapSession.display;
-            Keyboard keyboard = browser.getAddressBar().getKeyboardByPlayer((Player) sender);
+            Keyboard keyboard = browser.getKeyboardByPlayer((Player) sender);
             getServer().getScheduler().runTaskAsynchronously(this, () -> {
                 try {
                     keyboard.onKeyClick(Integer.parseInt(args[1]));

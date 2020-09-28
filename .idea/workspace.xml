@@ -2,23 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/CefAppCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/Tab.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebBrowser.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WebBrowser.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/RequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/RequestHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/new.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/no.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/not_selected.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/settings.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/smallnew.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/yes.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/Tab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/Tab.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/widgets/MapWidgetTextField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/widgets/MapWidgetTextField.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +79,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Java Scratch.KeyEventDemo (1)">
+  <component name="RunManager" selected="Remote.Unnamed">
     <configuration name="KeyEventDemo (1)" type="Java Scratch" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="KeyEventDemo" />
       <option name="SCRATCH_FILE_URL" value="file://$APPLICATION_CONFIG_DIR$/scratches/KeyEventDemo.java" />

@@ -5,6 +5,7 @@ import com.bergerkiller.bukkit.common.map.MapColorPalette;
 import com.bergerkiller.bukkit.common.map.MapFont;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidget;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidgetSubmitText;
+import com.bergerkiller.bukkit.common.map.widgets.MapWidgetText;
 import kr.syeyoung.webbrowser.PluginWebBrowser;
 import kr.syeyoung.webbrowser.editor.MapClickListener;
 import kr.syeyoung.webbrowser.editor.PromptInputPls;
@@ -44,32 +45,14 @@ public class MapWidgetTextField extends MapWidget implements MapClickListener {
         invalidate();;
     }
 
-    MapWidgetSubmitText anvilWidget = new MapWidgetSubmitText() {
-        @Override
-        public void onAccept(String str) {
-            value = allowColor ? ChatColor.translateAlternateColorCodes('&', str) : str;
-            coloredText.setText(value);
-            MapWidgetTextField.this.setFocusable(true);
-            MapWidgetTextField.this.invalidate();
-            MapWidgetTextField.this.onValueUpdated();
-
-        }
-        public void onCancel() {
-            MapWidgetTextField.this.setFocusable(true);
-            MapWidgetTextField.this.invalidate();
-            MapWidgetTextField.this.onValueUpdated();
-        }
-    };
     MapWidgetColoredText coloredText = new MapWidgetColoredText();
 
     @Override
     public void onAttached() {
         super.onAttached();
         clearWidgets();
-        anvilWidget.setDescription("enter name");
         coloredText.setBounds(2,2,getWidth() -4, getHeight() -4);
         coloredText.setDefaultColor(ChatColor.BLACK);
-        addWidget(anvilWidget);
         addWidget(coloredText);
     }
 
@@ -122,8 +105,6 @@ public class MapWidgetTextField extends MapWidget implements MapClickListener {
                 .buildConversation(lastClicker);
         conversation.begin();
         conversationContext = conversation.getContext();
-//                .begin();
-//        anvilWidget.activate();
     }
 
     private Player lastClicker;

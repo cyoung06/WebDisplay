@@ -8,7 +8,7 @@ import kr.syeyoung.webbrowser.editor.MapClickListener;
 import kr.syeyoung.webbrowser.editor.widgets.MapWidgetFontSupportButton;
 import kr.syeyoung.webbrowser.util.NanumFont;
 
-public class TabHeader extends MapWidget {
+public class TabHeader extends MapWidget implements MapClickListener {
     private Tab tab;
 
     private MapWidgetButton button = new MapWidgetButton() {
@@ -16,6 +16,8 @@ public class TabHeader extends MapWidget {
         public void onAttached() {
             super.onAttached();
             setText("X");
+            setFocusable(true);
+            setClipParent(true);
         }
 
         @Override
@@ -27,26 +29,26 @@ public class TabHeader extends MapWidget {
     public TabHeader(Tab tab) {
         this.tab = tab;
         setFocusable(true);
-        setEnabled(false);
         setClipParent(true);
 
-        button.setBounds(getWidth() - 20, 0, 20, 20);
+        button.setBounds(getWidth() - 20, 0, 30, 30);
         addWidget(button);
     }
 
     @Override
     public void onBoundsChanged() {
-        button.setBounds(getWidth() - 20, 0, 20, 20);
+        button.setBounds(getWidth() - 20, 0, 30, 30);
     }
 
     @Override
     public void onDraw() {
         this.view.fillRectangle(0,0,getWidth(), getHeight(), tab.isActive() ? MapColorPalette.COLOR_GREEN : MapColorPalette.COLOR_WHITE);
-        this.view.draw(NanumFont.NormalMapNanumFont, 0, 0, MapColorPalette.COLOR_BLACK, tab.getTitle());
+        this.view.draw(NanumFont.BigMapNanumFont, 5, 5, MapColorPalette.COLOR_BLACK, tab.getTitle());
     }
 
     @Override
-    public void onActivate() {
+    public boolean onClick(MapClickEvent event) {
         tab.getMapBrowser().setActivatedTab(tab);
+        return false;
     }
 }

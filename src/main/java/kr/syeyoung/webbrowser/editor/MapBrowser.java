@@ -52,12 +52,13 @@ public class MapBrowser extends MapDisplay {
         @Override
         public void onAttached() {
             super.onAttached();
+            setFocusable(true);
             setText("+");
         }
 
         @Override
         public void onActivate() {
-            addTab(new Tab(MapBrowser.this));
+            addTab(new Tab(MapBrowser.this, "http://www.google.com"));
         }
     };
 
@@ -68,20 +69,24 @@ public class MapBrowser extends MapDisplay {
         setGlobal(true);
 
         createCefClient();
+        addWidget(createNew);
         resizeTabs();
 
-        addTab(new Tab(this));
-        addTab(new Tab(this));
+        addTab(new Tab(this, "http://www.google.com"));
+        addTab(new Tab(this, "http://www.google.com"));
     }
 
     public void setActivatedTab(Tab t) {
-        activeTab.setActive(false);
+        if (activeTab != null)
+            activeTab.setActive(false);
         t.setActive(true);
-        activeTab = t;
 
-        removeWidget(activeTab);
+        if (activeTab != null)
+            removeWidget(activeTab);
+
+        activeTab = t;
         addWidget(t);
-        t.setBounds(0, 20, getWidth(), getHeight() - 20);
+        t.setBounds(0, 30, getWidth(), getHeight() - 30);
     }
 
     public void closeTab(Tab t) {
@@ -102,11 +107,13 @@ public class MapBrowser extends MapDisplay {
     }
 
     public void resizeTabs() {
-        int eachSize = Math.min(300, (getWidth() - 20) / tabs.size());
+
+        int eachSize = 0;
+        if (tabs.size() != 0) eachSize = Math.min(300, (getWidth() - 20) / tabs.size());
         for (int i = 0; i < tabs.size(); i++) {
-            tabs.get(i).getHeader().setBounds(i * eachSize, 0, eachSize, 20);
+            tabs.get(i).getHeader().setBounds(i * eachSize, 0, eachSize, 30);
         }
-        createNew.setBounds(tabs.size() * eachSize, 0, 20, 20);
+        createNew.setBounds(tabs.size() * eachSize, 0, 30, 30);
     }
 
     public void createCefClient() {
@@ -124,7 +131,7 @@ public class MapBrowser extends MapDisplay {
         cefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
             @Override
             public boolean onBeforePopup(CefBrowser cefBrowser, CefFrame cefFrame, String url, String target_frame_name) {
-                System.out.println(url + " - " +target_frame_name);
+                addTab(new Tab(MapBrowser.this, url));
                 return false;
             }
         });
@@ -151,25 +158,26 @@ public class MapBrowser extends MapDisplay {
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getAddressBar().update(browser, isLoading, canGoBack, canGoForward);
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getStatusBar().setIsInProgress(isLoading);
 //
-                if (!isLoading && !errorMsg_.isEmpty()) {
-                    browser.loadURL(DataUri.create("text/html", errorMsg_));
-                    errorMsg_ = "";
-                }
+//                if (!isLoading && !errorMsg_.isEmpty()) {
+//                    browser.loadURL(DataUri.create("text/html", errorMsg_));
+//                    errorMsg_ = "";
+//                }
             }
 
             @Override
             public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
                                     String errorText, String failedUrl) {
-                if (errorCode != ErrorCode.ERR_NONE && errorCode != ErrorCode.ERR_ABORTED) {
-                    errorMsg_ = "<html><head>";
-                    errorMsg_ += "<title>Error while loading</title>";
-                    errorMsg_ += "</head><body>";
-                    errorMsg_ += "<h1>" + errorCode + "</h1>";
-                    errorMsg_ += "<h3>Failed to load " + failedUrl + "</h3>";
-                    errorMsg_ += "<p>" + (errorText == null ? "" : errorText) + "</p>";
-                    errorMsg_ += "</body></html>";
-                    browser.stopLoad();
-                }
+
+//                if (errorCode != ErrorCode.ERR_NONE && errorCode != ErrorCode.ERR_ABORTED) {
+//                    errorMsg_ = "<html><head>";
+//                    errorMsg_ += "<title>Error while loading</title>";
+//                    errorMsg_ += "</head><body>";
+//                    errorMsg_ += "<h1>" + errorCode + "</h1>";
+//                    errorMsg_ += "<h3>Failed to load " + failedUrl + "</h3>";
+//                    errorMsg_ += "<p>" + (errorText == null ? "" : errorText) + "</p>";
+//                    errorMsg_ += "</body></html>";
+//                    browser.stopLoad();
+//                }
             }
         });
     }

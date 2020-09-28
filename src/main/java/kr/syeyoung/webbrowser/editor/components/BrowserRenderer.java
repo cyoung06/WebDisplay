@@ -33,11 +33,15 @@ import static com.jogamp.opengl.GL.*;
 
 public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapClickListener {
     private CefBrowserOsr browser;
+    private boolean firstRender = false;
+
     public BrowserRenderer(CefBrowser browser) {
         this.browser = (CefBrowserOsr) browser;
         this.browser.renderHandler = this;
         setFocusable(true);
     }
+
+
 
     @Override
     public void onActivate() {
@@ -59,6 +63,7 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
     public void onAttached() {
         super.onAttached();
         viewRect.setSize(getWidth(), getHeight());
+        invalidate();
         this.browser.setFocus(true);
         this.browser.wasResizedWrap(getWidth(), getHeight());
     }
