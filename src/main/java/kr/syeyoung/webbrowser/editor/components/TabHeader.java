@@ -31,13 +31,13 @@ public class TabHeader extends MapWidget implements MapClickListener {
         setFocusable(true);
         setClipParent(true);
 
-        button.setBounds(getWidth() - 20, 0, 30, 30);
+        button.setBounds(getWidth() - 30, 0, 30, 30);
         addWidget(button);
     }
 
     @Override
     public void onBoundsChanged() {
-        button.setBounds(getWidth() - 20, 0, 30, 30);
+        button.setBounds(getWidth() - 30, 0, 30, 30);
     }
 
     @Override

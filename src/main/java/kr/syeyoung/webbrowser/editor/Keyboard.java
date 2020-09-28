@@ -1,8 +1,10 @@
 package kr.syeyoung.webbrowser.editor;
 
+import kr.syeyoung.webbrowser.editor.components.BrowserRenderer;
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.cef.CefClient;
@@ -20,6 +22,8 @@ public class Keyboard {
     private boolean isCtrlPressed;
     private boolean isAltPressed;
     private boolean isCapsLockPressed;
+
+    private boolean isBound;
 
     @Getter
     private MapBrowser browser;
@@ -67,6 +71,11 @@ public class Keyboard {
     }};
 
     public void onKeyClick(int keyCode) throws InterruptedException {
+//        if (keyCode == 999999999) {
+//            isBound = !isBound;
+//
+//        }
+
         if (keyCode == KeyEvent.VK_SHIFT) {
             isShiftPressed = !isShiftPressed;
             sendEvent(createKeyEvent(isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, keyCode , KeyEvent.CHAR_UNDEFINED, keyCode, 0, keyCode));
@@ -110,7 +119,7 @@ public class Keyboard {
             }
             if (isShiftPressed) {
                 isShiftPressed = false;
-                sendEvent(new KeyEvent(new JLabel(), isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
+                sendEvent(new KeyEvent(BrowserRenderer.dummy, isShiftPressed ? KeyEvent.KEY_PRESSED : KeyEvent.KEY_RELEASED, System.currentTimeMillis(), getMask(),keyCode , KeyEvent.CHAR_UNDEFINED, KeyEvent.KEY_LOCATION_STANDARD));
             }
         }
         sendKeyboard();
@@ -130,7 +139,7 @@ public class Keyboard {
     }
 
     public KeyEvent createKeyEvent(int event, int keyCode, char keyChar, int extended,int primaryUnicode, int rawCode) {
-        KeyEvent ev =  new KeyEvent(new JLabel(), event, System.currentTimeMillis(), getMask(), keyCode, keyChar, event != KeyEvent.KEY_TYPED ? KeyEvent.KEY_LOCATION_STANDARD : KeyEvent.KEY_LOCATION_UNKNOWN);
+        KeyEvent ev =  new KeyEvent(BrowserRenderer.dummy, event, System.currentTimeMillis(), getMask(), keyCode, keyChar, event != KeyEvent.KEY_TYPED ? KeyEvent.KEY_LOCATION_STANDARD : KeyEvent.KEY_LOCATION_UNKNOWN);
         AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(ev, extended);
         AWTAccessor.getKeyEventAccessor().setPrimaryLevelUnicode(ev, primaryUnicode);
         AWTAccessor.getKeyEventAccessor().setRawCode(ev, rawCode);
@@ -224,10 +233,20 @@ public class Keyboard {
             components.add(composeKey(KeyEvent.VK_SPACE, "        SPACE        "));
             components.add(composeKey(KeyEvent.VK_ALT, "ALT"));
             components.add(composeKey(KeyEvent.VK_CONTROL, "CTRL"));
+//            components.add(bindWASD());
             rows.add(spaceSeparatedRow(components.<TextComponent>toArray(new TextComponent[0])));
         }
         for (int i =0; i <10; i++) p.sendMessage("§f");
         rows.forEach(p.spigot()::sendMessage);
+    }
+
+    public TextComponent bindWASD() {
+        TextComponent tc = new TextComponent("[ Bind WASD ]");
+        tc.setBold(true);
+        tc.setColor(isBound ? ChatColor.RED : ChatColor.GREEN);
+        tc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] {new TextComponent("Click on this to bind your WASD input to arrow input")}));
+        tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/keyclick "+uid.toString()+" 999999999"));
+        return tc;
     }
 
     public TextComponent composeKey(int keyEventKey, String key) {

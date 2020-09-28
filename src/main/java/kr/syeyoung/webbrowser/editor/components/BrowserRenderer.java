@@ -9,6 +9,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.GLBuffers;
+import com.sun.awt.AWTUtilities;
 import com.sun.jmx.remote.internal.ArrayQueue;
 import kr.syeyoung.webbrowser.editor.MapClickListener;
 import org.cef.browser.CefBrowser;
@@ -34,6 +35,7 @@ import static com.jogamp.opengl.GL.*;
 public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapClickListener {
     private CefBrowserOsr browser;
     private boolean firstRender = false;
+
 
     public BrowserRenderer(CefBrowser browser) {
         this.browser = (CefBrowserOsr) browser;
@@ -98,17 +100,18 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
 
     @Override
     public void onTick() {
-
-        if (!sentRelease && System.currentTimeMillis() > lastClick) {
-            MouseEvent mouseEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, lastClickEvent.getX(), lastClickEvent.getY(), 0, false, lastClickEvent.getButton());
-            browser.sendMouseEventWrap(mouseEvent);
-            sentRelease = true;
-            if (!dragging) {
-                mouseEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, lastClickEvent.getX(), lastClickEvent.getY(), 0, false, lastClickEvent.getButton());
-                browser.sendMouseEventWrap(mouseEvent);
+        EventQueue.invokeLater(() -> {
+            if (!sentRelease && System.currentTimeMillis() > lastClick) {
+                MouseEvent mouseEvent = new MouseEvent(dummy, MouseEvent.MOUSE_RELEASED, System.currentTimeMillis(), 0, lastClickEvent.getX(), lastClickEvent.getY(), 0, false, lastClickEvent.getButton());
+                sendMouseEvent(mouseEvent);
+                sentRelease = true;
+                if (!dragging) {
+                    mouseEvent = new MouseEvent(dummy, MouseEvent.MOUSE_CLICKED, System.currentTimeMillis(), 0, lastClickEvent.getX(), lastClickEvent.getY(), 0, false, lastClickEvent.getButton());
+                    sendMouseEvent(mouseEvent);
+                }
+                dragging = false;
             }
-            dragging = false;
-        }
+        });
         super.onTick();
         synchronized (lastFrameData) {
             FrameData fd = lastFrameData;
@@ -135,6 +138,19 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
                 bf.position(0);
         }
     }
+
+    public void sendMouseEvent(MouseEvent mouseEvent) {
+        browser.sendMouseEventWrap(mouseEvent);
+        System.out.println(mouseEvent);
+    }
+    
+    private static final Point dummyPoint = new Point(0,0);
+    public static final Component dummy = new Component() {
+        @Override
+        public Point getLocationOnScreen() {
+            return dummyPoint;
+        }
+    };
 
     private Rectangle viewRect = new Rectangle(0,0,300,200);
     private Point screenPoint = new Point(0,0);
@@ -168,32 +184,34 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
     private Point lastKnownPoint = new Point(0,0);
     @Override
     public boolean onClick(MapClickEvent event) {
-        lastKnownPoint = new Point(event.getX(), event.getY() - 40);
-        if (lastClick < System.currentTimeMillis()) {
-            int button = 0;
-            if (event.getAction() == MapAction.LEFT_CLICK) button = MouseEvent.BUTTON1;
-            else if (event.getAction() == MapAction.RIGHT_CLICK) button = MouseEvent.BUTTON2;
-            else button = MouseEvent.NOBUTTON;
-            MouseEvent mouseEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, event.getX(), event.getY()-40, 0, false);
-            browser.sendMouseEventWrap(mouseEvent);
-            lastClickEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, event.getX(), event.getY()- 40, 0, false, button);
-            browser.sendMouseEventWrap(lastClickEvent);
-            lastClick = System.currentTimeMillis()+ 250;
-            sentRelease = false;
-            dragging = false;
-        } else {
-            int button = 0;
-            if (event.getAction() == MapAction.LEFT_CLICK) button = MouseEvent.BUTTON1;
-            else if (event.getAction() == MapAction.RIGHT_CLICK) button = MouseEvent.BUTTON2;
-            else button = MouseEvent.NOBUTTON;
-            MouseEvent mouseEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, event.getX(), event.getY()-40, 0, false);
-            browser.sendMouseEventWrap(mouseEvent);
-            lastClickEvent = new MouseEvent(new JLabel(), MouseEvent.MOUSE_DRAGGED, System.currentTimeMillis(), 0, event.getX(), event.getY()- 40, 0, false, button);
-            browser.sendMouseEventWrap(lastClickEvent);
-            lastClick = System.currentTimeMillis()+ 250;
-            sentRelease = false;
-            dragging = true;
-        }
+        lastKnownPoint = new Point(event.getX(), event.getY() - 70);
+        EventQueue.invokeLater(() -> {
+            if (lastClick < System.currentTimeMillis()) {
+                int button = 0;
+                if (event.getAction() == MapAction.LEFT_CLICK) button = MouseEvent.BUTTON1;
+                else if (event.getAction() == MapAction.RIGHT_CLICK) button = MouseEvent.BUTTON2;
+                else button = MouseEvent.NOBUTTON;
+                MouseEvent mouseEvent = new MouseEvent(dummy, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, event.getX(), event.getY() - 70, 0, false);
+                sendMouseEvent(mouseEvent);
+                lastClickEvent = new MouseEvent(dummy, MouseEvent.MOUSE_PRESSED, System.currentTimeMillis(), 0, event.getX(), event.getY() - 70, 0, false, button);
+                sendMouseEvent(lastClickEvent);
+                lastClick = System.currentTimeMillis() + 250;
+                sentRelease = false;
+                dragging = false;
+            } else {
+                int button = 0;
+                if (event.getAction() == MapAction.LEFT_CLICK) button = MouseEvent.BUTTON1;
+                else if (event.getAction() == MapAction.RIGHT_CLICK) button = MouseEvent.BUTTON2;
+                else button = MouseEvent.NOBUTTON;
+                MouseEvent mouseEvent = new MouseEvent(dummy, MouseEvent.MOUSE_MOVED, System.currentTimeMillis(), 0, event.getX(), event.getY() - 70, 0, false);
+                sendMouseEvent(mouseEvent);
+                lastClickEvent = new MouseEvent(dummy, MouseEvent.MOUSE_DRAGGED, System.currentTimeMillis(), 0, event.getX(), event.getY() - 70, 0, false, button);
+                sendMouseEvent(lastClickEvent);
+                lastClick = System.currentTimeMillis() + 250;
+                sentRelease = false;
+                dragging = true;
+            }
+        });
         return false;
     }
 

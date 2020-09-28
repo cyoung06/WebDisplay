@@ -4,6 +4,7 @@ import com.bergerkiller.bukkit.common.map.widgets.MapWidget;
 import kr.syeyoung.webbrowser.CefAppCreator;
 import kr.syeyoung.webbrowser.cef.*;
 import kr.syeyoung.webbrowser.editor.MapBrowser;
+import kr.syeyoung.webbrowser.editor.popup.Popup;
 import kr.syeyoung.webbrowser.util.DataUri;
 import lombok.Getter;
 import org.cef.browser.CefBrowser;
@@ -76,6 +77,17 @@ public class Tab extends MapWidget {
         addressBar.setBounds(0,0,getWidth(),addressBar.getHeight());
         statusBar.setBounds(0,getHeight()-statusBar.getHeight(),getWidth(),statusBar.getHeight());
         renderer.setBounds(0, addressBar.getHeight(), getWidth(), getHeight() - statusBar.getHeight() - addressBar.getHeight());
+    }
+
+
+    Popup popup;
+    public boolean addPopup(Popup widget) {
+        if (popup != null && !popup.isClosed()) return false;
+
+        widget.setPosition((getWidth() - widget.getWidth()) /2, (getHeight() - widget.getHeight()) /2);
+        addWidget(widget);
+        this.popup = widget;
+        return true;
     }
 
     public void setupBrowser(String url) {

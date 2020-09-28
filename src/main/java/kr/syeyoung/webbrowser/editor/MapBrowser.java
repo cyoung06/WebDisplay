@@ -15,11 +15,13 @@ import kr.syeyoung.webbrowser.editor.components.AddressBar;
 import kr.syeyoung.webbrowser.editor.components.BrowserRenderer;
 import kr.syeyoung.webbrowser.editor.components.StatusBar;
 import kr.syeyoung.webbrowser.editor.components.Tab;
+import kr.syeyoung.webbrowser.editor.popup.Popup;
 import kr.syeyoung.webbrowser.util.DataUri;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.cef.CefApp;
 import org.cef.CefClient;
+import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefFrame;
 import org.cef.browser.CefMessageRouter;
@@ -67,6 +69,7 @@ public class MapBrowser extends MapDisplay {
         clearWidgets();
         setSessionMode(MapSessionMode.FOREVER);
         setGlobal(true);
+        setUpdateWithoutViewers(true);
 
         createCefClient();
         addWidget(createNew);
@@ -93,8 +96,9 @@ public class MapBrowser extends MapDisplay {
         tabs.remove(t);
         removeWidget(t.getHeader());
 
-        if (t == activeTab)
+        if (t == activeTab && tabs.size() != 0)
             setActivatedTab(tabs.get(0));
+
 
         resizeTabs();
     }
@@ -119,13 +123,10 @@ public class MapBrowser extends MapDisplay {
     public void createCefClient() {
         cefClient = CefAppCreator.getInstance().getCefApp().createClient();
         cefClient.addContextMenuHandler(new ContextMenuHandler(null));
-        cefClient.addDragHandler(new DragHandler());
-        cefClient.addJSDialogHandler(new JSDialogHandler());
-        cefClient.addKeyboardHandler(new KeyboardHandler());
+        cefClient.addJSDialogHandler(new JSDialogHandler(this));
         cefClient.addRequestHandler(new RequestHandler(null));
 
         CefMessageRouter msgRouter = CefMessageRouter.create();
-        msgRouter.addHandler(new MessageRouterHandler(), true);
         msgRouter.addHandler(new MessageRouterHandlerEx(cefClient), false);
         cefClient.addMessageRouter(msgRouter);
         cefClient.addLifeSpanHandler(new CefLifeSpanHandlerAdapter() {
@@ -157,7 +158,7 @@ public class MapBrowser extends MapDisplay {
                                              boolean canGoBack, boolean canGoForward) {
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getAddressBar().update(browser, isLoading, canGoBack, canGoForward);
                 tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get().getStatusBar().setIsInProgress(isLoading);
-//
+///
 //                if (!isLoading && !errorMsg_.isEmpty()) {
 //                    browser.loadURL(DataUri.create("text/html", errorMsg_));
 //                    errorMsg_ = "";
@@ -191,6 +192,10 @@ public class MapBrowser extends MapDisplay {
     @Override
     public void onRightClick(MapClickEvent event) {
         onClick(event);
+    }
+
+    public Tab getTab(CefBrowser browser) {
+        return tabs.stream().filter(t -> t.getCefBrowser() == browser).findFirst().get();
     }
 
     private void onClick(MapClickEvent event) {
