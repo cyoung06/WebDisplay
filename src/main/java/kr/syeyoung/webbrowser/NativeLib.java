@@ -22,14 +22,10 @@ public class NativeLib {
     }
 
     public static void unpackIntoDir() throws IOException {
-        String nativelibName = "";
-        boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
-        if (OS.isWindows() && is64bit)
-            nativelibName = "win64";
-        else
-            throw new IllegalStateException("No native libs supporting this version");
 
         if (RESOURCE_PATH == null) throw new IllegalStateException("Resource not set");
+
+        String nativelibName = getLibName();
 
         Path target = RESOURCE_PATH.resolve(nativelibName);
         if (target.toFile().exists()) return;
@@ -49,13 +45,20 @@ public class NativeLib {
         }
     }
 
-    public static String getSubProcessPath() {
+    private static String getLibName() {
         String nativelibName = "";
         boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
         if (OS.isWindows() && is64bit)
-            nativelibName = "win64";
+            return "win64";
+        else if (OS.isWindows() && !is64bit)
+            return "win32";
         else
             throw new IllegalStateException("No native libs supporting this version");
+    }
+
+    public static String getSubProcessPath() {
+        String nativelibName = getLibName();
+
         File dir = RESOURCE_PATH.resolve(nativelibName).resolve(OS.isWindows() ? "jcef_helper.exe" : OS.isLinux() ? "jcef_helper" : "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helpe").toFile();
         return dir.getAbsolutePath();
     }
@@ -63,12 +66,8 @@ public class NativeLib {
     static SystemBootstrap.Loader loader = new SystemBootstrap.Loader() {
         @Override
         public void loadLibrary(String s) {
-            String nativelibName = "";
-            boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
-            if (OS.isWindows() && is64bit)
-                nativelibName = "win64";
-            else
-                throw new IllegalStateException("No native libs supporting this version");
+            String nativelibName = getLibName();
+
             File dir = RESOURCE_PATH.resolve(nativelibName).toFile();
             if (searchAndLoad(dir, s)) return;
             System.loadLibrary(s);
