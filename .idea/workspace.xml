@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/linux32.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/linux64.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

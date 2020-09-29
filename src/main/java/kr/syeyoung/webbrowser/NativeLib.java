@@ -79,9 +79,16 @@ public class NativeLib {
         private boolean searchAndLoad(File dir, String s) {
             for (File f: Objects.requireNonNull(dir.listFiles())) {
                 if (f.isDirectory()) if (searchAndLoad(f, s)) return true;
-                if (f.isFile() && f.getName().startsWith(s)) {
-                    System.load(f.getAbsolutePath());
-                    return true;
+                if (OS.isWindows()) {
+                    if (f.isFile() && f.getName().startsWith(s)) {
+                        System.load(f.getAbsolutePath());
+                        return true;
+                    }
+                } else if (OS.isLinux()) {
+                    if (f.isFile() && f.getName().startsWith("lib"+s) && f.getName().endsWith(".so")) {
+                        System.load(f.getAbsolutePath());
+                        return true;
+                    }
                 }
             }
             return false;
