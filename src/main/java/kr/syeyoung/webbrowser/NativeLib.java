@@ -73,6 +73,7 @@ public class NativeLib {
 
             File dir = RESOURCE_PATH.resolve(nativelibName).toFile();
             if (searchAndLoad(dir, s)) return;
+            System.out.println("loading lib... "+s);
             System.loadLibrary(s);
         }
 
@@ -86,6 +87,7 @@ public class NativeLib {
                     }
                 } else if (OS.isLinux()) {
                     if (f.isFile() && f.getName().startsWith("lib"+s) && f.getName().endsWith(".so")) {
+                        System.out.println("loading... "+f.getAbsolutePath());
                         System.load(f.getAbsolutePath());
                         return true;
                     }
