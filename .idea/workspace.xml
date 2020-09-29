@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/Keyboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/AddressBar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/win32.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/win32.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/win64.zip" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/win64.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/linux32.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/linux64.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,15 +33,15 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
-    <property name="last_opened_file_path" value="B:/javacef/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.3969397" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="kr.syeyoung.webbrowser.cef" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="B:\프로그래밍\WebBrowser\src\main\resources\kr\syeyoung\webbrowser\res\nativelibs" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="B:\프로그래밍\WebBrowser\src\main\resources\kr\syeyoung\webbrowser\res\nativelibs" />
@@ -60,8 +57,8 @@
       <recent name="kr.syeyoung.craft.editor.widgets" />
       <recent name="kr.syeyoung.craft.addon" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="B:\프로그래밍\WebBrowser\src\main\resources\kr\syeyoung\webbrowser\res\nativelibs" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="kr.syeyoung.webbrowser.cef" />
     </key>
   </component>
   <component name="RunAnythingCache">

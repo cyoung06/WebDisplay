@@ -46,12 +46,15 @@ public class NativeLib {
     }
 
     private static String getLibName() {
-        String nativelibName = "";
         boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
         if (OS.isWindows() && is64bit)
             return "win64";
         else if (OS.isWindows() && !is64bit)
             return "win32";
+        else if (OS.isLinux() && is64bit)
+            return "linux64";
+        else if (OS.isLinux() && !is64bit)
+            return "linux32";
         else
             throw new IllegalStateException("No native libs supporting this version");
     }
