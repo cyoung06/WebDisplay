@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" afterDir="false" />
-    </list>
+    <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +29,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/license" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
