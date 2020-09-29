@@ -14,7 +14,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.cef.OS;
 import org.cef.browser.CefBrowser;
-import org.cef.browser.CefBrowserOsr;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

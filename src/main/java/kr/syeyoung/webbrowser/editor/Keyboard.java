@@ -163,7 +163,7 @@ public class Keyboard {
 
     public void sendEvent(KeyEvent event) {
         if (browser.getActiveTab() != null)
-            ((CefBrowserOsr)browser.getActiveTab().getCefBrowser()).sendKeyEventWrap(event);
+            ((CefBrowserOsr)browser.getActiveTab().getCefBrowser()).sendKeyEvent(event);
     }
 
     public int getMask() {

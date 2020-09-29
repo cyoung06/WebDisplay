@@ -18,6 +18,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserOsr;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefRenderHandler;
+import org.cef.handler.CefScreenInfo;
 import org.w3c.dom.css.Rect;
 
 
@@ -70,13 +71,13 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
         viewRect.setSize(getWidth(), getHeight());
         invalidate();
         this.browser.setFocus(true);
-        this.browser.wasResizedWrap(getWidth(), getHeight());
+        this.browser.wasResized(getWidth(), getHeight());
     }
 
     @Override
     public void onBoundsChanged() {
         viewRect.setSize(getWidth(), getHeight());
-        browser.wasResizedWrap(getWidth(), getHeight());
+        browser.wasResized(getWidth(), getHeight());
     }
 
     @Override
@@ -141,7 +142,7 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
     }
 
     public void sendMouseEvent(MouseEvent mouseEvent) {
-        browser.sendMouseEventWrap(mouseEvent);
+        browser.sendMouseEvent(mouseEvent);
     }
     
     private static final Point dummyPoint = new Point(0,0);
@@ -158,6 +159,11 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
     @Override
     public Rectangle getViewRect(CefBrowser cefBrowser) {
         return viewRect;
+    }
+
+    @Override
+    public boolean getScreenInfo(CefBrowser cefBrowser, CefScreenInfo cefScreenInfo) {
+        return browser.getScreenInfo(cefBrowser, cefScreenInfo);
     }
 
     @Override
