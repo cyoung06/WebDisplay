@@ -2,7 +2,9 @@ package kr.syeyoung.webbrowser.editor;
 
 import com.bergerkiller.bukkit.common.events.map.MapClickEvent;
 import com.bergerkiller.bukkit.common.events.map.MapStatusEvent;
+import com.bergerkiller.bukkit.common.map.MapColorPalette;
 import com.bergerkiller.bukkit.common.map.MapDisplay;
+import com.bergerkiller.bukkit.common.map.MapFont;
 import com.bergerkiller.bukkit.common.map.MapSessionMode;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidget;
 import com.bergerkiller.bukkit.common.map.widgets.MapWidgetButton;
@@ -20,6 +22,7 @@ import kr.syeyoung.webbrowser.editor.components.StatusBar;
 import kr.syeyoung.webbrowser.editor.components.Tab;
 import kr.syeyoung.webbrowser.editor.popup.Popup;
 import kr.syeyoung.webbrowser.util.DataUri;
+import kr.syeyoung.webbrowser.util.NanumFont;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -71,27 +74,84 @@ public class MapBrowser extends MapDisplay {
         }
     };
 
+
+    @Override
+    public void onTick() {
+        if (getWidth() < 384 || getHeight() < 128) {
+            getTopLayer().fillRectangle(0,0,getWidth(),getHeight(), MapColorPalette.COLOR_WHITE);
+            getTopLayer().draw(MapFont.MINECRAFT, 5,5,MapColorPalette.COLOR_RED, "Display Too Small!");
+            drawTextInMiddleWithAdoquateSpacingWithin(getTopLayer(), "The smallest size web display can operate on is 3x1 maps (recommended smallest size 4x3 maps)", 5, 20, getWidth() - 10, getHeight() / 2);
+            drawTextInMiddleWithAdoquateSpacingWithin(getTopLayer(), "Please put and connect webdisplays in itemframes to see content", 5, getHeight() / 2 + 20, getWidth() - 10, getHeight() / 2 - 25);
+        }
+    }
+
+    public void drawTextInMiddleWithAdoquateSpacingWithin(Layer layer, String str, int x, int y, int totalWidth, int totalHeight) {
+        String[] words = str.split(" ");
+        List<String> linesStr = new ArrayList<>();
+        StringBuilder currentLine = new StringBuilder();
+        int width = 0;
+        for (String word : words) {
+            int width2 = word.length() * 6 - 1;
+            if (width2 + width > totalWidth) {
+                width = width2;
+                linesStr.add(currentLine.toString());
+                currentLine = new StringBuilder(word);
+            } else {
+                currentLine.append(" ").append(word);
+                width += width2;
+            }
+
+            width += 6;
+        }
+
+        linesStr.add(currentLine.toString());
+        int startY = y + ((totalHeight - (linesStr.size() * 9 - 1)) / 2);
+        for (int i = 0; i < linesStr.size(); i++ ) {
+            String lines = linesStr.get(i).trim();
+            int localWidth = lines.length() * 6 - 1;
+
+            int startX = x + (totalWidth - localWidth) / 2;
+
+            layer.draw(MapFont.MINECRAFT, startX, startY + i * 9, MapColorPalette.COLOR_BLACK, lines);
+        }
+    }
+
     @Override
     public void onAttached() {
         clearWidgets();
+
         setSessionMode(MapSessionMode.FOREVER);
         setGlobal(true);
         setUpdateWithoutViewers(true);
 
-        createCefClient();
-        addWidget(createNew);
-        resizeTabs();
+        if (cefClient == null)
+            createCefClient();
 
-        CommonTagCompound tabs = properties.get("tabs", CommonTagCompound.class);
-        if (tabs != null) {
-            CommonTagList taglist = tabs.getValue("urls", CommonTagList.class);
 
-            for (CommonTag url : taglist)
-                addTab(new Tab(this, url.getData(String.class)));
-        } else {
-            addTab(new Tab(this, DEFAULT_URL));
+        if (getWidth() >= 384 && getHeight() >= 128) {
+            addWidget(createNew);
+            resizeTabs();
+
+            if (tabs.size() == 0) {
+                CommonTagCompound tabs = properties.get("tabs", CommonTagCompound.class);
+                if (tabs != null) {
+                    CommonTagList taglist = tabs.getValue("urls", CommonTagList.class);
+
+                    for (CommonTag url : taglist)
+                        addTab(new Tab(this, url.getData(String.class)));
+                } else {
+                    addTab(new Tab(this, DEFAULT_URL));
+                }
+            } else {
+                for (Tab t:tabs) {
+                    addWidget(t.getHeader());
+                }
+                addWidget(activeTab);
+                if (activeTab != null) activeTab.setBounds(0, 30, getWidth(), getHeight() - 30);
+
+                resizeTabs();
+            }
         }
-
     }
 
     public void setActivatedTab(Tab t) {

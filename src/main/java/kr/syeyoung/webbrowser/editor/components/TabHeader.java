@@ -48,6 +48,7 @@ public class TabHeader extends MapWidget implements MapClickListener {
 
     @Override
     public boolean onClick(MapClickEvent event) {
+        if (!tab.isActive())
         tab.getMapBrowser().setActivatedTab(tab);
         return false;
     }

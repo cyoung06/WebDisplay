@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="149a3fcf-b7fd-47a9-b6bd-564008385879" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/NativeLib.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/nativelibs/win64.zip" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/CefAppCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/CefAppCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/PluginWebBrowser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/AppHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/AppHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/WebDisplaySchemeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/cef/WebDisplaySchemeHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/MapBrowser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/BrowserRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/opensource.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/opensource.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/welcome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/kr/syeyoung/webbrowser/res/welcome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor/components/TabHeader.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,6 +28,7 @@
   <component name="ProjectId" id="1b9ZSdZMaXy5mt66Gay6lCjXlGe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/kr/syeyoung/webbrowser/editor" />
