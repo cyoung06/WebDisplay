@@ -67,6 +67,20 @@ public class NativeLib {
         File dir = RESOURCE_PATH.resolve(nativelibName).resolve(OS.isWindows() ? "jcef_helper.exe" : OS.isLinux() ? "jcef_helper" : "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helpe").toFile();
         return dir.getAbsolutePath();
     }
+    public static String getResourcesPath() {
+        String nativelibName = getLibName();
+
+        File dir = RESOURCE_PATH.resolve(nativelibName).toFile();
+        return dir.getAbsolutePath();
+    }
+    public static String getLocalesPath() {
+        String nativelibName = getLibName();
+
+        File dir = RESOURCE_PATH.resolve(nativelibName).resolve("locales").toFile();
+        return dir.getAbsolutePath();
+    }
+
+
 
     static {
         if (OS.isLinux()) searchAndLoad(new File(System.getProperty("java.home") + "/lib/"), "jawt");
