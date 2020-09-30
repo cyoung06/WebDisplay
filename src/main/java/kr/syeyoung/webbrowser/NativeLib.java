@@ -69,9 +69,7 @@ public class NativeLib {
     }
 
     static {
-        boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
-        if (OS.isLinux() && is64bit) System.load(System.getProperty("java.home") + "/lib/amd64/libjawt.so");
-        else if (OS.isLinux() && !is64bit) System.load(System.getProperty("java.home") + "/lib/i386/libjawt.so");
+        if (OS.isLinux()) searchAndLoad(new File(System.getProperty("java.home") + "/lib/"), "jawt");
     }
 
     static SystemBootstrap.Loader loader = new SystemBootstrap.Loader() {
@@ -93,23 +91,24 @@ public class NativeLib {
             }
         }
 
-        private boolean searchAndLoad(File dir, String s) {
-            for (File f: Objects.requireNonNull(dir.listFiles())) {
-                if (f.isDirectory()) if (searchAndLoad(f, s)) return true;
-                if (OS.isWindows()) {
-                    if (f.isFile() && f.getName().startsWith(s)) {
-                        System.load(f.getAbsolutePath());
-                        return true;
-                    }
-                } else if (OS.isLinux()) {
-                    if (f.isFile() && f.getName().startsWith("lib"+s) && f.getName().endsWith(".so")) {
-                        System.out.println("loading... "+f.getAbsolutePath());
-                        System.load(f.getAbsolutePath());
-                        return true;
-                    }
+
+    };
+    private static boolean searchAndLoad(File dir, String s) {
+        for (File f: Objects.requireNonNull(dir.listFiles())) {
+            if (f.isDirectory()) if (searchAndLoad(f, s)) return true;
+            if (OS.isWindows()) {
+                if (f.isFile() && f.getName().startsWith(s)) {
+                    System.load(f.getAbsolutePath());
+                    return true;
+                }
+            } else if (OS.isLinux()) {
+                if (f.isFile() && f.getName().startsWith("lib"+s) && f.getName().endsWith(".so")) {
+                    System.out.println("loading... "+f.getAbsolutePath());
+                    System.load(f.getAbsolutePath());
+                    return true;
                 }
             }
-            return false;
         }
-    };
+        return false;
+    }
 }
