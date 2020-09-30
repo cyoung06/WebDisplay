@@ -1,5 +1,6 @@
 package kr.syeyoung.webbrowser;
 
+import org.bukkit.Bukkit;
 import org.cef.OS;
 import org.cef.SystemBootstrap;
 
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.lang.annotation.Native;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -66,15 +68,29 @@ public class NativeLib {
         return dir.getAbsolutePath();
     }
 
+    static {
+        boolean is64bit = "64".equals(System.getProperty("sun.arch.data.model"));
+        if (OS.isLinux() && is64bit) System.load(System.getProperty("java.home") + "/lib/amd64/libjawt.so");
+        else if (OS.isLinux() && !is64bit) System.load(System.getProperty("java.home") + "/lib/i386/libjawt.so");
+    }
+
     static SystemBootstrap.Loader loader = new SystemBootstrap.Loader() {
         @Override
         public void loadLibrary(String s) {
             String nativelibName = getLibName();
 
+
             File dir = RESOURCE_PATH.resolve(nativelibName).toFile();
-            if (searchAndLoad(dir, s)) return;
-            System.out.println("loading lib... "+s);
-            System.loadLibrary(s);
+            try {
+                if (searchAndLoad(dir, s)) return;
+                System.out.println("loading lib... "+s);
+                System.loadLibrary(s);
+            } catch (Exception e) {
+                Bukkit.getConsoleSender().sendMessage("§c================================ WEB DISPLAY WARNING ================================");
+                Bukkit.getConsoleSender().sendMessage("§fFailed to load native library "+s+", "+e.getMessage());
+                e.printStackTrace();
+                return;
+            }
         }
 
         private boolean searchAndLoad(File dir, String s) {

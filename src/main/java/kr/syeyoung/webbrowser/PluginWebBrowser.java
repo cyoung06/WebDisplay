@@ -58,6 +58,12 @@ public class PluginWebBrowser extends JavaPlugin {
             e.printStackTrace();
             return;
         }
+
+        if (!CefApp.startup(new String[0])) {
+            getServer().getPluginManager().disablePlugin(this);
+            System.out.println("An error occured while starting up cef");
+            return;
+        }
     }
 
     public void onDisable() {
