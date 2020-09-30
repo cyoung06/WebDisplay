@@ -72,11 +72,18 @@ public class PluginWebBrowser extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (command.getLabel().equals("webdisplay")) {
+            if (!sender.isOp()) {
+                sender.sendMessage("§b[Web Display] §cPermission Denied.");
+                return true;
+            }
             ((Player) sender).getInventory().addItem(MapDisplay.createMapItem(this, MapBrowser.class));
             sender.sendMessage("§b[Web Display] §fA map has been added to your inventory. Hang them to the wall using item frames to create web display.");
         } else {
             if (args.length != 2) return true;
-            if (!sender.isOp()) return true;
+            if (!sender.isOp()) {
+                sender.sendMessage("§b[Web Display] §cPermission Denied.");
+                return true;
+            }
             Optional<MapSession> session = CommonPlugin.getInstance().getMapController().getInfo(UUID.fromString(args[0])).sessions.stream().findFirst();
             if (!session.isPresent()) {
                 sender.sendMessage("§cCan't find the webdisplay connected to this keyboard");
