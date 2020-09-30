@@ -28,6 +28,12 @@ sudo apt-get -y install xorg xvfb gtk2-engines-pixbuf
 sudo apt-get -y install dbus-x11 xfonts-base xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable
 ```
 
+Before starting your server, run following commands
+```
+Xfvd :1 &
+export DISPLAY=:1
+```
+
 ##  Inconsistency detected by ld.so: dl-lookup.c: 111: ....
 
 Downgrade to openjdk-8
