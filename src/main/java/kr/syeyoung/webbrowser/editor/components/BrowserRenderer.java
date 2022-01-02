@@ -235,6 +235,7 @@ public class BrowserRenderer extends MapWidget implements CefRenderHandler, MapC
         // yay fun stuff
         FrameData fd = lastFrameData;
         synchronized (lastFrameData) {
+            }
             fd.rectangles.addAll(Arrays.asList(rectangles));
             int size = (i * i1) << 2;
             if (fd.buffer == null || size != fd.buffer.capacity()) //This only happens when the browser gets resized
